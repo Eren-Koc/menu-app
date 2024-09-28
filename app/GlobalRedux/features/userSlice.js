@@ -275,15 +275,12 @@ export const UploadProduct =(id,title,file,category,description,price)=> async (
 }
 
 export const deleteProduct =(userId,category,product)=> async (dispatch) =>{
-  /*productId*/
+ 
 
   const newCategory = {
     ...category,
     products: category.products.filter(item => item.productId !== product.productId)
   };
-
-  console.log(newCategory,"category");
-
 
   const usersCollectionRef = collection(db, 'clients');
   const q = query(usersCollectionRef, where('id', '==', userId));
@@ -296,15 +293,19 @@ export const deleteProduct =(userId,category,product)=> async (dispatch) =>{
     const newMenu = [...cUser.menu]; 
     newMenu[index] = newCategory; 
     await updateDoc(doc(db,"clients",userId), {menu:newMenu});
-    console.log(newMenu);
+
+const clientRef = doc(db, "clients", userId);
+const updatedUserSnap = await getDoc(clientRef);
+
+ if (updatedUserSnap.exists()) {
+      const updatedUserData = updatedUserSnap.data();
+      dispatch(setCurrentUser(updatedUserData));
+    }
+
+    
   } else {
     errorPopup("Bir hata oluştu daha sonra tekrar deneyiniz.");
   }
-
-
- 
-
-  
 
 }
 
