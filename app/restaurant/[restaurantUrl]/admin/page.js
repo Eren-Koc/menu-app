@@ -26,7 +26,7 @@ const adminPanel = ({params}) => {
     
     const generateQrCode = () => {
       
-      let url = "localhost:3000/restaurant/"+currentUser.url;
+      let url = "menu-app-erenkocs-projects.vercel.app/restaurant/"+currentUser.url;
         const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(url)}`;
         setQrCodeUrl(qrApiUrl);
         setQrcodePopupVisible(true);
